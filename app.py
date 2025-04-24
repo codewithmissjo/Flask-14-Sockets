@@ -1,3 +1,4 @@
+from os import environ
 from flask import Flask, render_template#, request, redirect, session
 from flask_socketio import SocketIO, emit
 
@@ -18,4 +19,6 @@ def test_message(message):
   emit('new message', {'data': message['data']})
 
 if __name__ == '__main__':
-  app.run()
+  HOST = environ.get('SERVER_HOST', 'localhost')
+  PORT = int(environ.get('SERVER_PORT', '5000'))
+  app.run(app, host=HOST, port=PORT)
