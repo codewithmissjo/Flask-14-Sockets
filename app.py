@@ -5,7 +5,7 @@ socketio = SocketIO()
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret!'
-socketio.init(app)
+socketio.init_app(app)
 
 @app.route('/')
 def index():
