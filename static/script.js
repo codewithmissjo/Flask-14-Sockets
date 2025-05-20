@@ -1,17 +1,19 @@
-$(document).ready(function () {
-    var socket = io.connect('http://' + document.domain + ':' + location.port + '/test');
+$(document).ready(function(){
+    // simplified the namespace of the io obj
+    const socket = io("/test");
 
-    socket.on('my connection', function (msg) {
-        $('#log').append('<p>Status: ' + msg.data + '</p>');
+    socket.on("a_new_message", function(msg) {
+        $("#log").append(`<p>Received: ${msg.data}</p>`)
     });
 
-    socket.on('new message', function (msg) {
-        $('#log').append('<p>Received: ' + msg.data + '</p>');
-    });
-    
-    $('form#message').submit(function (event) {
-        socket.emit('my new message', { data: $('#message_data').val() });
+    $('form#message').on('submit', function(e){
+        // prevent the typical form stuff from happening
+        e.preventDefault();
+        
+        // Emitting a message FROM the Client
+        socket.emit("form_submitted", { data: $('#message_data').val() });
+
+        // reset form
         document.getElementById("message").reset();
-        return false;
     });
 });
